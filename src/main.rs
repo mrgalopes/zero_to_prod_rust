@@ -1,12 +1,15 @@
 use std::net::TcpListener;
 
 use sqlx::PgPool;
-use zero_to_prod_rust::telemetry::{get_subscriber, init_subscriber};
-use zero_to_prod_rust::{configuration::get_configuration, startup::run};
+use zero_to_prod_rust::{
+    configuration::get_configuration,
+    startup::run,
+    telemetry::{get_subscriber, init_subscriber},
+};
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
-    let subscriber = get_subscriber("zero2prod".into(), "info".into());
+    let subscriber = get_subscriber("zero2prod".into(), "info".into(), std::io::stdout);
     init_subscriber(subscriber);
 
     let configuration = get_configuration().expect("Failed to read configuration.");
